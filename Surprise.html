@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mystery Gift 🎁</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    background:#020024;
+    color:white;
+}
+.box{
+    background:rgba(0,0,0,0.6);
+    padding:25px;
+    border-radius:15px;
+    width:90%;
+    max-width:420px;
+    margin:60px auto;
+}
+button{
+    padding:12px 25px;
+    font-size:16px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#ffcc00;
+}
+input{
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    font-size:16px;
+    width:80%;
+}
+.hidden{display:none}
+
+/* Fireworks */
+.firework{
+    position:absolute;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    animation: explode 0.8s ease-out forwards;
+}
+@keyframes explode{
+    from{transform:scale(1);opacity:1;}
+    to{transform:scale(10);opacity:0;}
+}
+
+/* Glow text */
+.glow{
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+@keyframes glow{
+    from{text-shadow:0 0 10px #fff;}
+    to{text-shadow:0 0 25px #ffcc00;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- WORKING BEEP SOUND -->
+<audio id="openSound">
+<source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=">
+</audio>
+
+<div class="box" id="giftBox">
+    <h2>🎁 Mystery Gift</h2>
+    <p>Tap to open</p>
+    <button onclick="openGift()">Open</button>
+</div>
+
+<div class="box hidden" id="riddleBox">
+    <h2>🧩 Riddle</h2>
+    <p>
+        I have no color,<br>
+        I have no shape,<br>
+        I fall from the sky,<br>
+        And fill rivers & lakes.<br><br>
+        What am I?
+    </p>
+    <input id="answer" placeholder="Type answer">
+    <br><br>
+    <button onclick="checkAnswer()">Submit</button>
+</div>
+
+<div class="box hidden" id="finalBox">
+    <h1 class="glow">🎆 HAPPY NEW YEAR 2026 🎆</h1>
+
+    <p>✨ A new chapter begins ✨</p>
+
+    <div class="box">
+        🌟 Stay happy<br>
+        🌟 Stay healthy<br>
+        🌟 Keep smiling
+    </div>
+
+    <p style="font-size:14px;opacity:0.8">
+        Thank you for being part of this journey 💙
+    </p>
+
+    <p style="margin-top:15px">🎉🎇🎉</p>
+</div>
+
+<script>
+function openGift(){
+    let sound=document.getElementById("openSound");
+    sound.currentTime=0;
+    sound.play(); // ✅ 100% WORKING SOUND
+    document.getElementById("giftBox").classList.add("hidden");
+    document.getElementById("riddleBox").classList.remove("hidden");
+}
+
+function checkAnswer(){
+    let ans=document.getElementById("answer").value.toLowerCase();
+    if(ans==="water"){
+        document.getElementById("riddleBox").classList.add("hidden");
+        document.getElementById("finalBox").classList.remove("hidden");
+        fireworks();
+    }else{
+        alert("❌ Wrong answer, try again!");
+    }
+}
+
+function fireworks(){
+    let rounds=0;
+    let interval=setInterval(()=>{
+        for(let i=0;i<5;i++){
+            let f=document.createElement("div");
+            f.className="firework";
+            f.style.left=Math.random()*window.innerWidth+"px";
+            f.style.top=Math.random()*window.innerHeight+"px";
+            f.style.background=`hsl(${Math.random()*360},100%,50%)`;
+            document.body.appendChild(f);
+            setTimeout(()=>f.remove(),800);
+        }
+        rounds++;
+        if(rounds>4) clearInterval(interval);
+    },700);
+}
+</script>
+
+</body>
+</html>
+<script>
+function checkAnswer(){
+    let ans = document.getElementById("answer").value
+                .toLowerCase()
+                .trim();   // 🔥 IMPORTANT FIX
+
+    let correctAnswers = ["water", "rain", "liquid"];
+
+    if(correctAnswers.includes(ans)){
+        document.getElementById("riddleBox").classList.add("hidden");
+        document.getElementById("finalBox").classList.remove("hidden");
+        fireworks();
+    }else{
+        alert("❌ Wrong answer, try again!");
+    }
+}
+</script>
